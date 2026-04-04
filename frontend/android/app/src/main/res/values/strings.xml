@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Hospital Safety</string>
+    <string name="title_activity_main">Hospital Safety</string>
+    <string name="package_name">com.hospital.safety</string>
+    <string name="custom_url_scheme">com.hospital.safety</string>
+</resources>

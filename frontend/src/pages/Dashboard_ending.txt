@@ -1,0 +1,14 @@
+            </div>
+        </div>
+
+        {selectedAssignment && (
+            <ReportEditor 
+                assignmentId={selectedAssignment}
+                onClose={() => setSelectedAssignment(null)}
+            />
+        )}
+    </div>
+    );
+};
+
+export default Dashboard;

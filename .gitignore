@@ -1,0 +1,33 @@
+# Environment
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Databases
+*.db
+*.sqlite
+hospital_safety.db
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.next/
+frontend/out/
+
+# Reports/Exports
+exports/
+*.xlsx
+test_results.txt
+test_results_utf8.txt
+test_run_output.txt
+test_run_output_utf8.txt
+test_*.txt
+test_final*.txt
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
