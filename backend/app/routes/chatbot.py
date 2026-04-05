@@ -50,8 +50,8 @@ async def chat(request: ChatbotRequest):
             detail=f"Chat failed: {str(e)}"
         )
 
-@router.get("/history/{session_id}")
-async def get_history(session_id: str):
+@router.get("/history")
+async def get_history(session_id: str = "default"):
     """
     Get chat history for a session
     """

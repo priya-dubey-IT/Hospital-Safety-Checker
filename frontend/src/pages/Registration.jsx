@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { mainRegistration } from '../services/api';
 import { FaUserMd, FaUserInjured, FaCheckCircle } from 'react-icons/fa';
+import WebcamCapture from '../components/WebcamCapture';
 import './Registration.css';
 
 const Registration = () => {
     const [formData, setFormData] = useState({
         doctor_name: '',
         doctor_category: '',
-        patient_name: ''
+        patient_name: '',
+        doctor_face_image: null,
+        patient_face_image: null
     });
 
     const [loading, setLoading] = useState(false);
@@ -33,6 +36,20 @@ const Registration = () => {
         });
     };
 
+    const handleDoctorCapture = (imageSrc) => {
+        setFormData({
+            ...formData,
+            doctor_face_image: imageSrc
+        });
+    };
+
+    const handlePatientCapture = (imageSrc) => {
+        setFormData({
+            ...formData,
+            patient_face_image: imageSrc
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -52,6 +69,15 @@ const Registration = () => {
             return;
         }
 
+        // Biometric check is optional, but encouraged
+        if (!formData.doctor_face_image) {
+            toast.warning('No face captured for doctor. Proceeding with name only.');
+        }
+
+        if (!formData.patient_face_image) {
+            toast.warning('No face captured for patient. Proceeding with name only.');
+        }
+
         setLoading(true);
 
         try {
@@ -66,7 +92,9 @@ const Registration = () => {
                     setFormData({
                         doctor_name: '',
                         doctor_category: '',
-                        patient_name: ''
+                        patient_name: '',
+                        doctor_face_image: null,
+                        patient_face_image: null
                     });
                     setSuccess(false);
                 }, 3000);
@@ -109,34 +137,46 @@ const Registration = () => {
                         <h2>Doctor Information</h2>
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Doctor Name *</label>
-                        <input
-                            type="text"
-                            name="doctor_name"
-                            value={formData.doctor_name}
-                            onChange={handleInputChange}
-                            className="form-input"
-                            placeholder="Enter doctor's full name"
-                            required
-                        />
+                    <div className="form-grid">
+                        <div className="form-group">
+                            <label className="form-label">Doctor Name *</label>
+                            <input
+                                type="text"
+                                name="doctor_name"
+                                value={formData.doctor_name}
+                                onChange={handleInputChange}
+                                className="form-input"
+                                placeholder="Enter doctor's full name"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Category *</label>
+                            <select
+                                name="doctor_category"
+                                value={formData.doctor_category}
+                                onChange={handleInputChange}
+                                className="form-select"
+                                required
+                            >
+                                <option value="">Select category</option>
+                                {categories.map((cat, index) => (
+                                    <option key={index} value={cat}>{cat}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Category *</label>
-                        <select
-                            name="doctor_category"
-                            value={formData.doctor_category}
-                            onChange={handleInputChange}
-                            className="form-select"
-                            required
-                        >
-                            <option value="">Select category</option>
-                            {categories.map((cat, index) => (
-                                <option key={index} value={cat}>{cat}</option>
-                            ))}
-                        </select>
+                    {/* Biometric section disabled for healthcare compliance */}
+                    {/* 
+                    <div className="biometric-section">
+                        <WebcamCapture 
+                            onCapture={handleDoctorCapture} 
+                            label="Doctor's Face Capture (Optional but recommended)" 
+                        />
                     </div>
+                    */}
                 </div>
 
                 <div className="form-section">
@@ -157,6 +197,16 @@ const Registration = () => {
                             required
                         />
                     </div>
+
+                    {/* Biometric section disabled for healthcare compliance */}
+                    {/* 
+                    <div className="biometric-section">
+                        <WebcamCapture 
+                            onCapture={handlePatientCapture} 
+                            label="Patient's Face Capture (Optional)" 
+                        />
+                    </div>
+                    */}
                 </div>
 
                 <div className="form-actions">

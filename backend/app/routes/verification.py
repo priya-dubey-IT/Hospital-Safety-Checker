@@ -12,11 +12,22 @@ async def verify_doctor(request: VerificationRequest):
     Verify doctor using face or fingerprint
     """
     try:
-        doctor = None
-        verification_method = None
+        # Biometric verification
+        if request.face_image:
+            # First try biometric search
+            face_encoding = await process_face_image(request.face_image)
+            doctor = await db.find_doctor_by_face(face_encoding)
+            if doctor:
+                verification_method = "face"
         
-        # Biometric verification removed - using name-based only
-        if request.doctor_name:
+        if not doctor and request.fingerprint:
+            # Try fingerprint search
+            doctor = await db.find_doctor_by_fingerprint(request.fingerprint)
+            if doctor:
+                verification_method = "fingerprint"
+                
+        # Name-based fallback if provided and no biometric match yet
+        if not doctor and request.doctor_name:
             doctor = await db.get_doctor_by_name(request.doctor_name)
             if doctor:
                 verification_method = "name"

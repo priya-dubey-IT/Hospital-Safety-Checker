@@ -8,7 +8,7 @@ const Home = () => {
         {
             icon: <FaUserMd size={40} />,
             title: 'Doctor & Patient Registration',
-            description: 'Register doctors and patients with biometric authentication using face recognition and fingerprint.',
+            description: 'Register doctors and patients with secure authentication and professional profiles.',
             link: '/registration',
             color: '#667eea'
         },
@@ -21,8 +21,8 @@ const Home = () => {
         },
         {
             icon: <FaClipboardCheck size={40} />,
-            title: 'Biometric Verification',
-            description: 'Verify doctors using face or fingerprint authentication for secure access.',
+            title: 'Verified Access',
+            description: 'Secure staff login and profile-based authentication for authorized personnel.',
             link: '/verification',
             color: '#10b981'
         },
@@ -57,11 +57,11 @@ const Home = () => {
                 </div>
                 <h1 className="hero-title">Hospital Safety Checker</h1>
                 <p className="hero-subtitle">
-                    Professional Biometric Patient Management System
+                    Professional Secure Patient Management System
                 </p>
                 <p className="hero-description">
-                    Secure, scalable, and production-ready hospital safety solution with advanced face recognition,
-                    fingerprint authentication, and comprehensive patient tracking.
+                    Secure, scalable, and production-ready hospital safety solution with advanced
+                    authentication and comprehensive patient tracking.
                 </p>
                 <div className="hero-actions">
                     <Link to="/registration" className="btn btn-primary btn-lg">

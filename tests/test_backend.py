@@ -46,7 +46,7 @@ def test_invalid_registration(client):
     # FastAPI returns 422 for missing required fields in the model
     assert response.status_code == 422
 
-def test_database_connection():
+def test_database_connection(client):
     """Structural Test: Verify SQLite database connection is active."""
     # The database connects via the lifespan of the app in TestClient
     assert db.db is not None

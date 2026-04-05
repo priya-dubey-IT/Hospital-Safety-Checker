@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { registerPatientOnly, getAllDoctors } from '../services/api';
 import { FaUserInjured, FaCheckCircle } from 'react-icons/fa';
+import WebcamCapture from '../components/WebcamCapture';
 import './Registration.css';
 
 const PatientRegistration = () => {
     const [doctors, setDoctors] = useState([]);
     const [formData, setFormData] = useState({
         doctor_name: '',
-        patient_name: ''
+        patient_name: '',
+        patient_face_image: null
     });
 
     const [loading, setLoading] = useState(false);
@@ -33,6 +35,13 @@ const PatientRegistration = () => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
+        });
+    };
+
+    const handlePatientCapture = (imageSrc) => {
+        setFormData({
+            ...formData,
+            patient_face_image: imageSrc
         });
     };
 
@@ -61,7 +70,8 @@ const PatientRegistration = () => {
                 setTimeout(() => {
                     setFormData({
                         doctor_name: '',
-                        patient_name: ''
+                        patient_name: '',
+                        patient_face_image: null
                     });
                     setSuccess(false);
                 }, 3000);
@@ -139,6 +149,16 @@ const PatientRegistration = () => {
                             required
                         />
                     </div>
+
+                    {/* Biometric section disabled for healthcare compliance */}
+                    {/* 
+                    <div className="biometric-section">
+                        <WebcamCapture 
+                            onCapture={handlePatientCapture} 
+                            label="Patient's Face Capture (Optional)" 
+                        />
+                    </div>
+                    */}
                 </div>
 
                 <div className="form-actions">

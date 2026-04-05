@@ -3,13 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { verifyDoctor, getAllDoctors } from '../services/api';
 import { FaUserMd, FaHospital } from 'react-icons/fa';
+import WebcamCapture from '../components/WebcamCapture';
 import './Verification.css';
 
 const Verification = () => {
     const navigate = useNavigate();
     const [doctors, setDoctors] = useState([]);
     const [formData, setFormData] = useState({
-        doctor_name: ''
+        doctor_name: '',
+        face_image: null
     });
 
     const [loading, setLoading] = useState(false);
@@ -40,11 +42,19 @@ const Verification = () => {
         });
     };
 
+    const handleFaceCapture = (imageSrc) => {
+        setFormData({
+            ...formData,
+            face_image: imageSrc
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.doctor_name) {
-            toast.error('Please select a doctor');
+        // One of them must be present
+        if (!formData.doctor_name && !formData.face_image) {
+            toast.error('Please either select a doctor or capture your face');
             return;
         }
 
@@ -105,10 +115,20 @@ const Verification = () => {
                             </div>
                         </div>
 
+                        {/* Biometric login section disabled for healthcare compliance */}
+                        {/* 
+                        <div className="biometric-login-section">
+                            <WebcamCapture 
+                                onCapture={handleFaceCapture} 
+                                label="Verify Identity via Face Search" 
+                            />
+                        </div>
+                        */}
+
                         <button
                             type="submit"
                             className="btn btn-primary btn-block auth-btn"
-                            disabled={loading || doctors.length === 0}
+                            disabled={loading}
                         >
                             {loading ? 'Authenticating...' : 'Access Workspace'}
                         </button>

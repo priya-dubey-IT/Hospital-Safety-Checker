@@ -16,17 +16,18 @@ async def main_registration(request: RegistrationRequest):
     Creates assignment mapping
     """
     try:
-        # Biometric processing removed as per request to remove image option
+        # Biometric processing
         doctor_face_encoding = None
+        if request.doctor_face_image:
+            doctor_face_encoding = await process_face_image(request.doctor_face_image)
+            
         doctor_fingerprint_hash = None
+        if request.doctor_fingerprint:
+            doctor_fingerprint_hash = FingerprintService.hash_fingerprint(request.doctor_fingerprint)
+            
         patient_face_encoding = None
-        
-        # No longer required if "normal" registration is used
-        # if not patient_face_encoding:
-        #     raise HTTPException(
-        #         status_code=status.HTTP_400_BAD_REQUEST,
-        #         detail="Face image is required for patient"
-        #     )
+        if request.patient_face_image:
+            patient_face_encoding = await process_face_image(request.patient_face_image)
         
         # Create doctor record
         doctor_id = await db.create_doctor(
